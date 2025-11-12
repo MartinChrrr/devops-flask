@@ -53,6 +53,20 @@ def edit_video():
 
     return render_template("edit_video.html", video=video)
 
+@app.route('/add', methods=['POST'])
+def add_video():
+    videos = utility.get_json("videos.json")
+    last_id = 0
+    for video in videos:
+        if last_id <= video['id']:
+            last_id = video['id']
+    next_id = id + 1
+    new_title = request.form.get('title')
+    new_url = request.form.get('url')
+    new_views = request.form.get('views', type=int)
+    utility.write_json("videos.json",videos)
+    return render_template("add_video.html", video=video)
+
 @app.route('/')
 def home():
     return "Hello, Flask in Docker!"
