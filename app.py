@@ -21,7 +21,7 @@ def get_video():
             video = v 
     return render_template("video_details.html", video=video)
 
-@app.route('/put/video', methods=['POST'])
+@app.route('/put/video', methods=['GET','POST'])
 def edit_video():
     #get id and check if id is missing
     id = request.args.get('id')
