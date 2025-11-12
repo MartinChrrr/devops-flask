@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 import json
 import os
 import utility
@@ -9,6 +9,16 @@ app = Flask(__name__)
 def videos():
     videos = utility.get_json("videos.json")
     return render_template("videos.html", videos = videos)
+
+@app.route('/get/video')
+def get_video():
+    id = request.args.get('id')
+    videos = utility.get_json("videos.json")
+    for v in videos:
+        if v['id'] == int(id):
+            video = v 
+    return render_template("video_details.html", video=video)
+
 
 @app.route('/')
 def home():

@@ -5,5 +5,8 @@ def get_json(path: str):
         videos = json.load(f)
     return videos
 
-print(get_json("videos.json"))
-
+videos = get_json("videos.json")
+for video in videos:
+    if video['id'] == 1:
+        print("super")
+    print((video['id']))
