@@ -3,6 +3,10 @@ import os
 
 app = Flask(__name__)
 
+@app.route('/videos')
+def home():
+    return "Hello, Flask in Docker!"
+
 @app.route('/')
 def home():
     return "Hello, Flask in Docker!"
