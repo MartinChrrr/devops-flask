@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Videos modifications</title>
+</head>
+<body>
+  <h1>Videos modifications</h1>
+  <form action="" method="POST">
+    <p>
+      <label for="title">Title : </label>
+      <input type="text" name="title" id="title" value="{{video.view}}">
+    </p>
+    <p>
+      <label for="url">Lien : </label>
+      <input type="text" name="url" id="url" value="{{video.url}}">
+    </p>
+    <p>
+      <label for="views">Vues : </label>
+      <input type="integer" name="views" id="views" value="{{video.views}}">
+    </p>
+    <p>
+      <input type="submit" value="Envoyer le formulaire">
+    </p>
+  </form>
+</body>
+</html>
