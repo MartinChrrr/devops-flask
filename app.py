@@ -8,7 +8,8 @@ app = Flask(__name__)
 @app.route('/videos')
 def videos():
     videos = utility.get_json("videos.json")
-    return render_template("videos2.html", videos = videos)
+    return render_template("videos.html", videos = videos),200
+    r#eturn render_template("videos2.html", videos = videos),200
 
 @app.route('/get/video')
 def get_video():
