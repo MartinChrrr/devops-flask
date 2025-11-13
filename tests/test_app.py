@@ -50,3 +50,35 @@ def test_video_details_ok(client, monkeypatch):
 
     # Check html
     assert "Test Video" in data
+
+def test_video_details_no_id(client, monkeypatch):
+    # Data so we don't read json
+    mock_data = [
+        {"id": 1, "title": "Test Video", "url": "https://x", "views": 5},
+        {"id": 2, "title": "Autre Video", "url": "https://y", "views": 7},
+    ]
+
+    #Replace utility.get_json par le mock_data
+    monkeypatch.setattr("utility.get_json", lambda path: mock_data)
+
+    #call route
+    response = client.get('/get/video')
+
+    # Check http status
+    assert response.status_code == 400
+
+def test_video_details_invalid_id(client, monkeypatch):
+    # Data so we don't read json
+    mock_data = [
+        {"id": 1, "title": "Test Video", "url": "https://x", "views": 5},
+        {"id": 2, "title": "Autre Video", "url": "https://y", "views": 7},
+    ]
+
+    #Replace utility.get_json par le mock_data
+    monkeypatch.setattr("utility.get_json", lambda path: mock_data)
+
+    #call route
+    response = client.get('/get/video?id=4')
+
+    # Check http status
+    assert response.status_code == 404

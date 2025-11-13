@@ -17,9 +17,12 @@ def get_video():
     if not id:
         return jsonify({"error": "Missing id parameter"}), 400
     videos = utility.get_json("videos.json")
+    video = None
     for v in videos:
         if v['id'] == int(id):
             video = v 
+    if not video:
+        return jsonify({"error": "Video not found"}), 404
     return render_template("video_details.html", video=video),200
 
 @app.route('/put/video', methods=['GET','POST'])
@@ -31,10 +34,11 @@ def edit_video():
     
     #get video and check if video_id is in videos
     videos = utility.get_json("videos.json")
+    video = None
     for v in videos:
         if v['id'] == int(id):
             video = v 
-    if not video:
+    if video is None:
         return jsonify({"error": "Video not found"}), 404
     #end
     
