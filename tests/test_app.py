@@ -20,7 +20,7 @@ def test_videos_route(client, monkeypatch):
     #Replace utility.get_json par le mock_data
     monkeypatch.setattr("utility.get_json", lambda path: mock_data)
 
-   #call road
+    #call route
     response = client.get('/videos')
 
     # Check http status
@@ -31,7 +31,7 @@ def test_videos_route(client, monkeypatch):
     assert "Test Video" in data
     assert "Autre Video" in data
 
-def test_video(client, monkeypatch):
+def test_video_details_ok(client, monkeypatch):
     # Data so we don't read json
     mock_data = [
         {"id": 1, "title": "Test Video", "url": "https://x", "views": 5},
@@ -41,7 +41,7 @@ def test_video(client, monkeypatch):
     #Replace utility.get_json par le mock_data
     monkeypatch.setattr("utility.get_json", lambda path: mock_data)
 
-       #call road
+    #call route
     response = client.get('/get/video?id=1')
 
     # Check http status
