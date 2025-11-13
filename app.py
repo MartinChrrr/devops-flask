@@ -19,7 +19,7 @@ def get_video():
     for v in videos:
         if v['id'] == int(id):
             video = v 
-    return render_template("video_details.html", video=video)
+    return render_template("video_details.html", video=video),200
 
 @app.route('/put/video', methods=['GET','POST'])
 def edit_video():
@@ -73,7 +73,7 @@ def add_video():
         videos.append(video)
         utility.write_json("videos.json",videos)
         return redirect(url_for('videos'),201)
-    return render_template("add_video.html")
+    return render_template("add_video.html"),200
 
 @app.route('/delete', methods=['POST'])
 def delete_video():
@@ -105,7 +105,7 @@ def delete_video():
 
 @app.route('/')
 def home():
-    return "Hello, Flask in Docker!"
+    return "Hello, Flask in Docker!",200
 
 
 if __name__ == '__main__':
