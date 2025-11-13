@@ -72,7 +72,7 @@ def add_video():
         video['views'] = new_views
         videos.append(video)
         utility.write_json("videos.json",videos)
-        return redirect(url_for('videos'))
+        return redirect(url_for('videos'),201)
     return render_template("add_video.html")
 
 @app.route('/delete', methods=['POST'])
@@ -99,7 +99,7 @@ def delete_video():
     # json file saved
     utility.write_json("videos.json", videos)
 
-    return redirect(url_for('videos'))
+    return redirect(url_for('videos'), 204)
 
 
 
