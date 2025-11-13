@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<ul>
+  {% for v in videos %}
+    <li>
+      <strong>{{ v.title }}</strong><br>
+      URL : {{ v.url }}<br>
+      Vues : {{ v.views }}<br>
+
+      <!-- Formulaire de mise à jour -->
+      <form action="/put/video?id={{ v.id }}" method="post" style="margin-top:10px;">
+        <input type="text" name="title" placeholder="Nouveau titre">
+        <input type="text" name="url" placeholder="Nouvelle URL">
+        <input type="number" name="views" placeholder="Nouvelles vues">
+        <button type="submit">Mettre à jour</button>
+      </form>
+
+      <!-- Formulaire de suppression -->
+      <form action="/delete?id={{ v.id }}" method="post" style="margin-top:5px;">
+        <button type="submit" style="color:red;">Supprimer</button>
+      </form>
+    </li>
+  {% endfor %}
+</ul>
+
+</body>
+</html>
+

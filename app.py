@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect, url_for
 import json
 import os
 import utility
@@ -8,7 +8,7 @@ app = Flask(__name__)
 @app.route('/videos')
 def videos():
     videos = utility.get_json("videos.json")
-    return render_template("videos.html", videos = videos)
+    return render_template("videos2.html", videos = videos)
 
 @app.route('/get/video')
 def get_video():
@@ -66,6 +66,33 @@ def add_video():
     new_views = request.form.get('views', type=int)
     utility.write_json("videos.json",videos)
     return render_template("add_video.html", video=video)
+
+@app.route('/delete', methods=['POST'])
+def delete_video():
+    id = request.args.get('id', type=int)
+    if not id:
+        return jsonify({"error": "Missing id parameter"}), 400
+
+    videos = utility.get_json("videos.json")
+
+    # Find the video to delete
+    video_to_delete = None
+    for v in videos:
+        if v['id'] == id:
+            video_to_delete = v
+            break
+
+    if not video_to_delete:
+        return jsonify({"error": "Video not found"}), 404
+
+    # delete the video
+    videos.remove(video_to_delete)
+
+    # json file saved
+    utility.write_json("videos.json", videos)
+
+    return redirect(url_for('videos'))
+
 
 @app.route('/')
 def home():
