@@ -9,16 +9,21 @@ def client():
         yield client
 
 
-
-def test_videos_route(client, monkeypatch):
-    # Data so we don't read json
-    mock_data = [
-        {"id": 1, "title": "Test Video", "url": "https://x", "views": 5},
-        {"id": 2, "title": "Autre Video", "url": "https://y", "views": 7},
+def sample_data():
+    """Fixture: retourne une liste d'exemples d'objets (simule des enregistrements).
+    Réutilisable dans les tests nécessitant des données d'exemple."""
+    return [
+        {'id':1, 'url':'http://example.com/1', 'title': 'Example 1', 'author': 'Author 1'},
+        {'id':2, 'url':'http://example.com/2', 'title': 'Example 2', 'author': 'Author 2'},
+        {'id':3, 'url':'http://example.com/3', 'title': 'Example 3', 'author': 'Author 1'}
     ]
 
+
+def test_videos_route(client, monkeypatch):
+
+
     #Replace utility.get_json par le mock_data
-    monkeypatch.setattr("utility.get_json", lambda path: mock_data)
+    monkeypatch.setattr("utility.get_json", lambda path: sample_data())
 
     #call route
     response = client.get('/videos')
@@ -28,18 +33,14 @@ def test_videos_route(client, monkeypatch):
     data = response.data.decode("utf-8")
 
     # Check html
-    assert "Test Video" in data
-    assert "Autre Video" in data
+    assert "Example 1" in data
+    assert "Example 2" in data
+    assert "Example 3" in data
 
 def test_video_details_ok(client, monkeypatch):
-    # Data so we don't read json
-    mock_data = [
-        {"id": 1, "title": "Test Video", "url": "https://x", "views": 5},
-        {"id": 2, "title": "Autre Video", "url": "https://y", "views": 7},
-    ]
 
     #Replace utility.get_json par le mock_data
-    monkeypatch.setattr("utility.get_json", lambda path: mock_data)
+    monkeypatch.setattr("utility.get_json", lambda path: sample_data())
 
     #call route
     response = client.get('/get/video?id=1')
@@ -49,17 +50,14 @@ def test_video_details_ok(client, monkeypatch):
     data = response.data.decode("utf-8")
 
     # Check html
-    assert "Test Video" in data
+    assert "Example 1" in data
 
 def test_video_details_no_id(client, monkeypatch):
-    # Data so we don't read json
-    mock_data = [
-        {"id": 1, "title": "Test Video", "url": "https://x", "views": 5},
-        {"id": 2, "title": "Autre Video", "url": "https://y", "views": 7},
-    ]
 
-    #Replace utility.get_json par le mock_data
-    monkeypatch.setattr("utility.get_json", lambda path: mock_data)
+
+
+    #Replace utility.get_json par le sample_data
+    monkeypatch.setattr("utility.get_json", lambda path: sample_data())
 
     #call route
     response = client.get('/get/video')
@@ -68,14 +66,10 @@ def test_video_details_no_id(client, monkeypatch):
     assert response.status_code == 400
 
 def test_video_details_invalid_id(client, monkeypatch):
-    # Data so we don't read json
-    mock_data = [
-        {"id": 1, "title": "Test Video", "url": "https://x", "views": 5},
-        {"id": 2, "title": "Autre Video", "url": "https://y", "views": 7},
-    ]
 
-    #Replace utility.get_json par le mock_data
-    monkeypatch.setattr("utility.get_json", lambda path: mock_data)
+
+    #Replace utility.get_json par le sample_data
+    monkeypatch.setattr("utility.get_json", lambda path: sample_data())
 
     #call route
     response = client.get('/get/video?id=4')
